@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>For My Love ❤️</title>
+  <style>
+    :root {
+      --bg-1: #ff9a9e;
+      --bg-2: #fad0c4;
+      --bg-3: #fbc2eb;
+      --card: rgba(255, 255, 255, 0.86);
+      --text: #5a284a;
+      --accent: #ff4d8d;
+      --shadow: 0 20px 50px rgba(90, 40, 74, 0.25);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      font-family: "Poppins", "Segoe UI", sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, var(--bg-1), var(--bg-2), var(--bg-3));
+    }
+
+    .glow {
+      position: fixed;
+      width: 60vmax;
+      height: 60vmax;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(255, 255, 255, 0.45), transparent 65%);
+      filter: blur(18px);
+      animation: drift 14s ease-in-out infinite alternate;
+      pointer-events: none;
+    }
+
+    .glow:nth-child(1) {
+      top: -18vmax;
+      left: -12vmax;
+    }
+
+    .glow:nth-child(2) {
+      bottom: -24vmax;
+      right: -15vmax;
+      animation-delay: 2s;
+    }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to { transform: translate(30px, -24px) scale(1.08); }
+    }
+
+    .card {
+      position: relative;
+      z-index: 2;
+      width: min(92vw, 720px);
+      padding: clamp(1.4rem, 3vw, 2.4rem);
+      border-radius: 28px;
+      background: var(--card);
+      backdrop-filter: blur(8px);
+      box-shadow: var(--shadow);
+      text-align: center;
+      animation: reveal 900ms ease-out;
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; transform: translateY(18px) scale(0.98); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      line-height: 1.12;
+    }
+
+    .subtitle {
+      margin: 0.8rem 0 1.4rem;
+      font-size: clamp(1rem, 2.4vw, 1.3rem);
+      color: #7a3d62;
+    }
+
+    .letter {
+      margin: 0 auto;
+      padding: 1rem 1.1rem;
+      max-width: 52ch;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.72);
+      line-height: 1.7;
+      font-size: 1rem;
+    }
+
+    .buttons {
+      margin-top: 1.5rem;
+      display: flex;
+      gap: 0.9rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 999px;
+      padding: 0.8rem 1.35rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    .primary {
+      color: #fff;
+      background: linear-gradient(135deg, #ff4d8d, #ff7aa2);
+    }
+
+    .secondary {
+      color: var(--accent);
+      background: #fff;
+    }
+
+    #secret {
+      margin-top: 1rem;
+      min-height: 1.5rem;
+      font-weight: 600;
+      color: #d6337d;
+    }
+
+    .heart {
+      position: fixed;
+      font-size: clamp(0.9rem, 2vw, 1.3rem);
+      animation: floatUp linear forwards;
+      pointer-events: none;
+      z-index: 1;
+      opacity: 0.75;
+    }
+
+    @keyframes floatUp {
+      from {
+        transform: translateY(20px) scale(0.9);
+        opacity: 0;
+      }
+      10% { opacity: 0.85; }
+      to {
+        transform: translateY(-110vh) scale(1.25);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow"></div>
+  <div class="glow"></div>
+
+  <main class="card">
+    <h1>To My Beautiful Girl ❤️</h1>
+    <p class="subtitle">A little page made with all my love.</p>
+    <section class="letter">
+      You make my days brighter, my smile bigger, and my heart calmer.
+      This is just a tiny reminder that you are loved deeply, admired endlessly,
+      and cherished every single day.
+    </section>
+
+    <div class="buttons">
+      <button class="primary" id="showMessage">Tap for a surprise</button>
+      <button class="secondary" id="moreHearts">Send more love</button>
+    </div>
+
+    <p id="secret" aria-live="polite"></p>
+  </main>
+
+  <script>
+    const messageBtn = document.getElementById("showMessage");
+    const heartsBtn = document.getElementById("moreHearts");
+    const secret = document.getElementById("secret");
+
+    const surprises = [
+      "You are my favorite part of every day. 💖",
+      "If I had one wish, it would be more moments with you. ✨",
+      "You are my sunshine, my peace, and my happiness. 🌸",
+      "I fall for you more and more every day. 💘"
+    ];
+
+    messageBtn.addEventListener("click", () => {
+      const msg = surprises[Math.floor(Math.random() * surprises.length)];
+      secret.textContent = msg;
+      burstHearts(16);
+    });
+
+    heartsBtn.addEventListener("click", () => burstHearts(28));
+
+    function burstHearts(count) {
+      for (let i = 0; i < count; i++) {
+        const heart = document.createElement("span");
+        heart.className = "heart";
+        heart.textContent = ["💖", "💕", "💗", "💓", "💘"][Math.floor(Math.random() * 5)];
+        heart.style.left = `${Math.random() * 100}vw`;
+        heart.style.bottom = "-16px";
+        heart.style.animationDuration = `${4 + Math.random() * 5}s`;
+        heart.style.animationDelay = `${Math.random() * 0.7}s`;
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 9500);
+      }
+    }
+
+    setInterval(() => burstHearts(2), 1800);
+  </script>
+</body>
+</html>
